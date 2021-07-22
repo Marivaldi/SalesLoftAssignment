@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -11,20 +12,10 @@ import TableRow from '@material-ui/core/TableRow';
 import { Person } from './Person';
 
 const columns = [
-  { id: 'name', label: 'Name', minWidth: 170 },
-  { id: 'email', label: 'Email', minWidth: 100 },
+  { id: 'display_name', label: 'Name', minWidth: 170 },
+  { id: 'email_address', label: 'Email', minWidth: 100 },
   { id: 'title', label: 'Job Title', minWidth: 100 }
 ];
-
-function createData(name, email, title, numberOfRecords) {
-  let data = [];
-  for(let i =0; i < numberOfRecords; i++) {
-    data.push({i, name, email, title})
-  }
-  return data;
-}
-
-const rows = createData('Shayne Moore', 'shayne.allen.moore@gmail.com', 'Software Engineer', 50);
 
 const useStyles = makeStyles({
   root: {
@@ -35,7 +26,8 @@ const useStyles = makeStyles({
   },
 });
 
-export function People() {
+const People = (props) => {
+  const rows = props.people;
   const classes = useStyles();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -67,9 +59,9 @@ export function People() {
                 </TableRow>
             </TableHead>
             <TableBody>
-                {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
                 return (
-                    <Person key={row.i} columns={columns} row={row}></Person>
+                    <Person key={index} columns={columns} row={row}></Person>
                 );
                 })}
             </TableBody>
@@ -87,3 +79,11 @@ export function People() {
     </Paper>
   );
 }
+
+const mapStateToProps = state => {
+  return {
+    people: state.people
+  };
+};
+
+export default connect(mapStateToProps)(People);

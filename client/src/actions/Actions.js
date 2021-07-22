@@ -1,8 +1,8 @@
 import * as actions from './Constants'
 
-export function receiveMe(me) {
+export function receivePeople(people) {
   return {
-    type: actions.RECEIVE_ME,
-    me
+    type: actions.RECEIVE_PEOPLE,
+    people
   }
 }

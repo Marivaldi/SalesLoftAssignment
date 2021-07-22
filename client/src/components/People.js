@@ -8,6 +8,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TablePagination from '@material-ui/core/TablePagination';
 import TableRow from '@material-ui/core/TableRow';
+import { Person } from './Person';
 
 const columns = [
   { id: 'name', label: 'Name', minWidth: 170 },
@@ -68,16 +69,7 @@ export function People() {
             <TableBody>
                 {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                 return (
-                    <TableRow hover role="checkbox" tabIndex={-1} key={row.i}>
-                    {columns.map((column) => {
-                        const value = row[column.id];
-                        return (
-                        <TableCell key={column.id} align={column.align}>
-                            {value}
-                        </TableCell>
-                        );
-                    })}
-                    </TableRow>
+                    <Person key={row.i} columns={columns} row={row}></Person>
                 );
                 })}
             </TableBody>

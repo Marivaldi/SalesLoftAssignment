@@ -17,7 +17,6 @@ const columns = [
 ];
 
 const CharacterCountDialog = (props) => {
-  console.log(props);
   const { onClose, open, characterCounts} = props;
 
   const handleClose = () => {
@@ -70,7 +69,6 @@ CharacterCountDialog.propTypes = {
 
 
 const CharacterCount = (props) => {
-  console.log(props);
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {

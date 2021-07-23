@@ -9,3 +9,11 @@ export function fetchPeople() {
       then(people => dispatch(actions.receivePeople(people)));
   }
 }
+
+export function fetchEmailCharacterCounts() {
+  return dispatch => {
+    return fetch('/api/email_character_counts', creds).
+      then(response => response.json()).
+      then(characterCounts => dispatch(actions.receiveCharacterCounts(characterCounts)));
+  }
+}

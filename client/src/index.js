@@ -10,7 +10,7 @@ import Reducers from './reducers/CombinedReducers'
 
 import createHistory from 'history/createBrowserHistory'
 
-import { fetchPeople } from './actions/AsyncActions'
+import { fetchEmailCharacterCounts, fetchPeople } from './actions/AsyncActions'
 
 const history = createHistory()
 const middlewares = [thunkMiddleware, routerMiddleware(history)]
@@ -20,6 +20,7 @@ window.store = store
 
 // bootstrap state
 store.dispatch(fetchPeople());
+store.dispatch(fetchEmailCharacterCounts());
 
 ReactDOM.render(
   <App store={store} />,

@@ -30,7 +30,7 @@ class  Api::PeopleController < Api::BaseController
 
         character_counts = count_unique_characters_in email_addresses
         email_character_tallies = tally_up character_counts
-        render json: email_character_tallies
+        render json: email_character_tallies.sort_by { |hsh| hsh[:character] }
     end
 
     def possible_duplicate_email_addresses

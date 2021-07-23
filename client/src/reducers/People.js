@@ -1,4 +1,3 @@
-import { merge } from '../utils'
 import { RECEIVE_PEOPLE } from '../actions/Constants'
 
 export function people (

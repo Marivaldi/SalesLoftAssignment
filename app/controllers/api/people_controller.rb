@@ -37,7 +37,7 @@ class  Api::PeopleController < Api::BaseController
         email_addresses = get_email_addresses
 
         possible_duplicates = possible_duplicate email_addresses
-        render json:[possible_duplicate_email_addresses]
+        render json: possible_duplicates
     end
 
     private

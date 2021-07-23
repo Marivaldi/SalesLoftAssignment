@@ -26,19 +26,30 @@ class  Api::PeopleController < Api::BaseController
     end
 
     def email_character_counts
-        response = @conn.get
-        response_body = JSON.parse(response.body, :symbolize_names => true)
-        people = response_body[:data]
-        email_addresses = people.map do |hash|
-            hash[:email_address]
-        end
+        email_addresses = get_email_addresses
 
         character_counts = count_unique_characters_in email_addresses
         email_character_tallies = tally_up character_counts
         render json: email_character_tallies
     end
 
+    def possible_duplicate_email_addresses
+        email_addresses = get_email_addresses
+
+        possible_duplicates = possible_duplicate email_addresses
+        render json:[possible_duplicate_email_addresses]
+    end
+
     private
+
+    def get_email_addresses
+        response = @conn.get
+        response_body = JSON.parse(response.body, :symbolize_names => true)
+        people = response_body[:data]
+        people.map do |hash|
+            hash[:email_address]
+        end
+    end
 
     def count_unique_characters_in(words)
         character_counts = {}
@@ -61,4 +72,42 @@ class  Api::PeopleController < Api::BaseController
             {:character => k, :count => v}
         end
     end
+
+    def possible_duplicate(email_addresses)
+        possible_duplicates = [];
+        email_addresses.each_with_index do |email1, index_of_first|
+            email_addresses.each_with_index do |email2, index_of_second|
+                next if index_of_first == index_of_second
+
+                difference = difference_between(first: email1, second: email2)
+
+                if difference <= 2
+                    possible_duplicates.push email2 unless possible_duplicates.include? email2
+                    possible_duplicates.push email1 unless possible_duplicates.include? email1
+                end
+            end
+        end
+
+        possible_duplicates
+    end
+
+    def difference_between(first:, second:)
+        # Levenshtein Distance Algorithm.
+        # Calculates the minimum number of edits required to change one word into another.
+        # From https://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance#Ruby
+        m, n = first.length, second.length
+        return m if n == 0
+        return n if m == 0
+
+        d = Array.new(m+1) {Array.new(n+1)}
+        0.upto(m) { |i| d[i][0] = i }
+        0.upto(n) { |j| d[0][j] = j }
+
+        1.upto(n) do |j|
+          1.upto(m) do |i|
+            d[i][j] = first[i-1] == second[j-1] ? d[i-1][j-1] : [d[i-1][j]+1,d[i][j-1]+1,d[i-1][j-1]+1,].min
+          end
+        end
+        d[m][n]
+      end
 end

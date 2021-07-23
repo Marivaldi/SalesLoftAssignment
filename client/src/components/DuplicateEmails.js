@@ -8,9 +8,9 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 
-const duplicateEmails = ["benolive@salesloft.com", "benoliv@salesloft.com", "shayne.all.moore@gmail.com", "shayne.allen.moore@gmail.com"];
 const DuplicateEmailsDialog = (props) => {
-  const { onClose, open} = props;
+  console.log(props)
+  const { onClose, open, duplicateEmails} = props;
 
   const handleClose = () => {
     onClose();
@@ -34,7 +34,8 @@ const DuplicateEmailsDialog = (props) => {
 
 DuplicateEmailsDialog.propTypes = {
   onClose: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired
+  open: PropTypes.bool.isRequired,
+  duplicateEmails: PropTypes.array.isRequired
 };
 
 
@@ -54,7 +55,7 @@ const DuplicateEmails = (props) => {
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         Show Possible Duplicates
       </Button>
-      <DuplicateEmailsDialog open={open} onClose={handleClose} characterCounts={props.characterCounts}/>
+      <DuplicateEmailsDialog open={open} onClose={handleClose} duplicateEmails={props.duplicateEmails}/>
     </div>
   );
 }

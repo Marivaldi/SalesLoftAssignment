@@ -13,3 +13,10 @@ export function receiveCharacterCounts(characterCounts) {
     characterCounts
   }
 }
+
+export function receiveDuplicateEmailAddresses(duplicateEmails) {
+  return {
+    type: actions.RECEIVE_DUPLICATE_EMAILS,
+    duplicateEmails
+  }
+}

@@ -17,3 +17,11 @@ export function fetchEmailCharacterCounts() {
       then(characterCounts => dispatch(actions.receiveCharacterCounts(characterCounts)));
   }
 }
+
+export function fetchDuplicateEmailAddresses() {
+  return dispatch => {
+    return fetch('/api/possible_duplicate_email_addresses', creds).
+      then(response => response.json()).
+      then(duplicates => dispatch(actions.receiveDuplicateEmailAddresses(duplicates)));
+  }
+}
